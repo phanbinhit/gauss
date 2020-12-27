@@ -14,56 +14,37 @@ public class Solve {
             return null;
         } else {
             long start = System.currentTimeMillis();
+
             for (i = 0; i < matrix[0].length - 1; i++) {
                 for (j = i + 1; j < matrix.length; j++) {
-               
-                            if (matrix[i][i] == 0) {
-                                if (!isSwapped(matrix, i)) {
-                        
+                    if (matrix[i][i] == 0) {
+                        if (!isSwapped(matrix, i)) {
+
+                        }
+                        isSwapped(matrix, i);
+                    } else {
+                        Thread thread1 = new Thread() {
+                            @Override
+                            public void run() {
+                                coefficient = matrix[j][i] / matrix[i][i];
                             }
-                                isSwapped(matrix, i);
-                            } else {
-                                double coefficient = matrix[j][i] / matrix[i][i];
-                                for (int k = i; k < matrix[0].length; k++) {
+                        };
+                        thread1.run(); 
+                        for (k = i; k < matrix[0].length; k++) {
+                            Thread thread2 = new Thread() {
+                                @Override
+                                public void run() {
                                     matrix[j][k] -= coefficient * matrix[i][k];
                                 }
-                            }
+                            };
+                            thread2.run();
+                            thread2.interrupt();
                         }
-                    
-                 
-                
-            }
+                        thread1.interrupt();
+                    }
 
-//            for (i = 0; i < matrix[0].length - 1; i++) {
-//                for (j = i + 1; j < matrix.length; j++) {
-//                    if (matrix[i][i] == 0) {
-//                        if (!isSwapped(matrix, i)) {
-//
-//                        }
-//                        isSwapped(matrix, i);
-//                    } else {
-//                        Thread thread1 = new Thread() {
-//                            @Override
-//                            public void run() {
-//                                coefficient = matrix[j][i] / matrix[i][i];
-//                            }
-//                        };
-//                        thread1.run(); 
-//                        for (k = i; k < matrix[0].length; k++) {
-//                            Thread thread2 = new Thread() {
-//                                @Override
-//                                public void run() {
-//                                    matrix[j][k] -= coefficient * matrix[i][k];
-//                                }
-//                            };
-//                            thread2.run();
-//                            thread2.interrupt();
-//                        }
-//                        thread1.interrupt();
-//                    }
-//
-//                }
-//            }
+                }
+            }
             System.out.println("Time"
                     + (System.currentTimeMillis() - start) + "ms");
             results[row - 1] = matrix[row - 1][col - 1] / matrix[row - 1][row - 1];
