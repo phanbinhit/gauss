@@ -82,7 +82,9 @@ public class MainFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Vui lòng nhập input");
                     return;
                 }
+               
                 double[] result = Solve.solveEquations(matrix);
+               
                 if (result == null) {
                     taResult.setText("Hệ vô nghiệm");
                     return;
